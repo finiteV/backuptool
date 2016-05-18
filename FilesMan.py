@@ -4,7 +4,7 @@ import hashlib
 import time
 import os.path
 import sys
-from Compress import Compress
+from Compress import RarCompressor
 from dbman import DBMan
 lock = Lock()
 class FilesMan(Thread):
@@ -23,9 +23,9 @@ class FilesMan(Thread):
         return 0
     
     def init_cpress(self,todir,key1,key2,secondir,tool):
-        self.compress = Compress()
+        self.compress = RarCompressor()
     
-        self.compress.init(todir,secondir,tool)
+        self.compress.init(todir,self.dir,secondir,tool)
         self.compress.init_key(key1,key2) 
             
         return 0
@@ -36,9 +36,11 @@ class FilesMan(Thread):
             self.compress.addir(self.dir)
             print '[*] Sccessfully for the first time.'
         ##先进入目录，然后递归处理文件,不检查目录
+        src = os.getcwd()
         os.chdir(self.dir)
         ##若第一次则,只更新数据库
-        self.walkdir()         
+        self.walkdir()  
+        os.chdir(src)       
     
  
     ###主要函数,递归处理一个目录,仅处理实体文件###
@@ -166,7 +168,7 @@ class FilesMan(Thread):
             self.trashfile()
         except:
             print "[!]Error while trashfile!!!"
-        print '[*] #####End of Backup######'
+        print "[*] {} is Done.".format(self.dir)
         
 if __name__=='__main__':
     dirs = 'G:\\BackUp'

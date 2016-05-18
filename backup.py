@@ -39,22 +39,43 @@ key1 = options.key1
 key2 = options.key2
 dirs = options.dirs
 
+print todir
+print key1
+print key2
+print dirs
+
 if options.printable==None:
         printable = '~!!!!!!!!!!!!'\
             ',,,,,,,,,,,,,,,,,,,,,,'
-if options.a==None:
+else:
+    printable = options.printable
+if options.a1==None:
     a1 = 3
+else:
+    a1 = options.a1
 if options.q==None:
     q = 3
-      
+else:
+    q = options.q
+print printable
+print a1,q
+
 PwdMan = PasswordMan(printable)
 key1 = PwdMan.keygen(key1,a1,q)
 key2 = PwdMan.keygen(key2,a1,q)
 
 if options.secondir==None:
     secondir = ''
+else:
+    secondir = options.secondir
 if options.tool==None:
     tool = 'rar'
+else:
+    tool = options.tool
+
+
+print secondir
+print tool
 
 for dr in dirs.split(';'):
     if dr=='':   continue
@@ -69,4 +90,4 @@ for dr in dirs.split(';'):
     fileman.join()
     #--------------------------------
     fileman.compress.spliterar(10)
-    print("[*] {} is Done.".format(dr))
+    #print("[*] {} is Done.".format(dr))

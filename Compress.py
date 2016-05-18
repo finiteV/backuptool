@@ -3,27 +3,27 @@ import os
 import os.path
 import subprocess
 
-class Compress:
+class RarCompressor:
     '''
     都是绝对路径,当前压缩工具是rar
     '''  
-    def init(self,todir,secondir,tool='rar'):
+    def init(self,todir,filename,secondir,tool='rar'):
         ##绝对备份目录路径
-        filename = self.namegen(todir)
+        filename = self.namegen(filename)
         self.dest = os.path.join(todir, filename+'.rar')
         
         self.sfilename = self.namegen(filename+'_BBK')
         secr_dest = os.path.join(todir, secondir)
         self.secr_dest = os.path.join(secr_dest,self.sfilename+'.rar')
         
-        self.tool = tool
+        #self.tool = tool
         
         return 0
  
     def init_key(self,key='key1',secrkey='key2',):
         self.key = key
         self.secrkey = secrkey 
-        print '\n[*] key: ',self.key,'\nsecure key: ',self.secrkey,'\n'  
+        print '\n[*] key: \n',self.key,'\nsecure key: \n',self.secrkey,'\n'  
        
     def addfile(self,filename):
         '''
@@ -31,7 +31,7 @@ class Compress:
         '''
         #cmd = "rar a -hp%s %s %s" % (self.key,self.dest,filename)
         try:
-            cmd = [self.tool,'a','-hp'+self.key,self.dest,filename]
+            cmd = ['rar','a','-hp'+self.key,self.dest,filename]
             child = subprocess.Popen(cmd,stdout=subprocess.PIPE)
             print '[+] adding %s' % filename
             #child.wait()
@@ -46,9 +46,10 @@ class Compress:
         '''
         压缩一个绝对目录下所有文件
         '''
+        src = os.getcwd()
         try:
             os.chdir(dirname)
-            cmd = [self.tool,'a','-r','-hp'+self.key,self.dest]
+            cmd = ['rar','a','-r','-hp'+self.key,self.dest]
             child = subprocess.Popen(cmd,stdout=subprocess.PIPE)
             print '[+] first time,compressing dir %s' % dirname
             #child.wait()
@@ -57,6 +58,8 @@ class Compress:
 #                 print k
         except Exception as e:
             print e
+        finally:
+            os.chdir(src)
 
     def delfile(self,filename):
         '''
@@ -65,7 +68,7 @@ class Compress:
         #cmd = "rar d -hp%s %s %s" % (self.key,self.dest,filename)
         #os.system(cmd)
         try:
-            cmd = [self.tool,'d','-hp'+self.key,self.dest,filename]
+            cmd = ['rar','d','-hp'+self.key,self.dest,filename]
             child = subprocess.Popen(cmd,stdout=subprocess.PIPE)
             print '[-] deleting %s' % filename
             #child.wait()
@@ -79,6 +82,7 @@ class Compress:
         '''
         #cmd = "rar a -hp%s -v%dm %s %s" % (self.secrkey,self.piece_len,self.secr_dest,self.dest)
         #per_len = 1#default 1024m
+        src = os.getcwd()
         pt,name = os.path.split(self.secr_dest)
         os.chdir(pt)
         if os.path.exists(name):
@@ -88,7 +92,7 @@ class Compress:
             if r_str in fl:
                 os.remove(fl)
         try:
-            cmd = [self.tool,'a','-hp'+self.secrkey,'-v'+str(per_len)+'m',self.secr_dest,self.dest]
+            cmd = ['rar','a','-hp'+self.secrkey,'-v'+str(per_len)+'m',self.secr_dest,self.dest]
             child = subprocess.Popen(cmd,stdout=subprocess.PIPE)
             print '[+] spliting %s ...' % self.dest
 #             child.wait() #buggy
@@ -97,6 +101,8 @@ class Compress:
 #                 print k
         except Exception as e:
             print e
+        finally:
+            os.chdir(src)
         # remove source rar
         #os.remove(self.dest)
         
@@ -110,7 +116,7 @@ class Compress:
 if __name__=="__main__":
     todir = ''
     os.chdir('e:\\')
-    test = Compress(todir);
+    test = RarCompressor(todir);
     #print 'add a file'
     #filename = 'dirs/3.txt'     ##不要代一代目录路径
     #test.addfile(filename);
