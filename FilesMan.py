@@ -12,7 +12,8 @@ class FilesMan(Thread):
     备份一个目录,主要类,不能有重复文件,第一次时间比较长,由rar引起
     '''
     def __init__(self):
-        Thread.__init__(self)  
+        Thread.__init__(self)
+        self.Changed = False  
              
     def init(self,dirname):
         self.dir = dirname  #备份目录 
@@ -100,6 +101,7 @@ class FilesMan(Thread):
                 self.dbman.update(res[0][0],'',sha1str)
                 self.compress.delfile(srcname)
                 self.compress.addfile(srcname) 
+            self.Changed = True
         #3.文件hash值存在,但目录改变
         ##不考虑链接等,多个重复文件将，覆盖只保留同hash值最后一个文件
         elif res[0][1]!=srcname:
@@ -111,6 +113,7 @@ class FilesMan(Thread):
             if not self.firstime: 
                 self.compress.delfile(res[0][1])
                 self.compress.addfile(srcname)
+            self.Changed = True
         #4.无需更新,文件未改变
         else:
             #4.1 更新数据库

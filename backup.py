@@ -78,5 +78,6 @@ for dr in dirs.split(';'):
     fileman.start()
     fileman.join()
     #--------------------------------
-    fileman.compress.spliterar(10)
+    if fileman.Changed:
+        fileman.compress.spliterar(10)
     #print("[*] {} is Done.".format(dr))
