@@ -25,6 +25,7 @@ parser.add_option('-p', dest='printable', type='string',help='printable')
 parser.add_option('-a', dest='a1', type='int',help='parm1 to keygen')
 parser.add_option('-q', dest='q', type='int',help='parm2 to keygen')
 parser.add_option('-t', dest='tool', type='string',help='compression tool')
+parser.add_option('-l', dest='per_len', type='string',help='compression per_len')
 
 
 (options, args) = parser.parse_args()
@@ -66,6 +67,11 @@ if options.tool==None:
 else:
     tool = options.tool
 
+if options.per_len==None:
+    per_len = 11
+else:
+    per_len = options.per_len
+
 for dr in dirs.split(';'):
     if dr=='':   continue
     
@@ -79,5 +85,5 @@ for dr in dirs.split(';'):
     fileman.join()
     #--------------------------------
     if fileman.Changed:
-        fileman.compress.spliterar(10)
+        fileman.compress.spliterar(per_len)
     #print("[*] {} is Done.".format(dr))
