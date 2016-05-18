@@ -39,11 +39,6 @@ key1 = options.key1
 key2 = options.key2
 dirs = options.dirs
 
-print todir
-print key1
-print key2
-print dirs
-
 if options.printable==None:
         printable = '~!!!!!!!!!!!!'\
             ',,,,,,,,,,,,,,,,,,,,,,'
@@ -57,8 +52,6 @@ if options.q==None:
     q = 3
 else:
     q = options.q
-print printable
-print a1,q
 
 PwdMan = PasswordMan(printable)
 key1 = PwdMan.keygen(key1,a1,q)
@@ -72,10 +65,6 @@ if options.tool==None:
     tool = 'rar'
 else:
     tool = options.tool
-
-
-print secondir
-print tool
 
 for dr in dirs.split(';'):
     if dr=='':   continue
