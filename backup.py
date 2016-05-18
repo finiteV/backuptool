@@ -25,7 +25,7 @@ parser.add_option('-p', dest='printable', type='string',help='printable')
 parser.add_option('-a', dest='a1', type='int',help='parm1 to keygen')
 parser.add_option('-q', dest='q', type='int',help='parm2 to keygen')
 parser.add_option('-t', dest='tool', type='string',help='compression tool')
-parser.add_option('-l', dest='per_len', type='string',help='compression per_len')
+parser.add_option('-l', dest='per_len', type='int',help='compression per_len')
 
 
 (options, args) = parser.parse_args()
