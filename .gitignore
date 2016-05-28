@@ -1,5 +1,8 @@
 # no pdf
 *.jpg
+*.pyc
+*.ini
+*.db
 # 1
 start.bat
 

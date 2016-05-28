@@ -40,38 +40,30 @@ key1 = options.key1
 key2 = options.key2
 dirs = options.dirs
 
-if options.printable==None:
-        printable = '~!!!!!!!!!!!!'\
+printable = '~!!!!!!!!!!!!'\
             ',,,,,,,,,,,,,,,,,,,,,,'
-else:
+a1 = 3   
+q = 3 
+secondir = ''
+tool = 'rar'
+per_len = 11
+
+if options.printable!=None:
     printable = options.printable
-if options.a1==None:
-    a1 = 3
-else:
+if options.a1!=None:
     a1 = options.a1
-if options.q==None:
-    q = 3
-else:
+if options.q!=None:
     q = options.q
+if options.secondir!=None:
+    secondir = options.secondir
+if options.tool!=None:
+    tool = options.tool
+if options.per_len!=None:
+    per_len = options.per_len
 
 PwdMan = PasswordMan(printable)
 key1 = PwdMan.keygen(key1,a1,q)
 key2 = PwdMan.keygen(key2,a1,q)
-
-if options.secondir==None:
-    secondir = ''
-else:
-    secondir = options.secondir
-if options.tool==None:
-    tool = 'rar'
-else:
-    tool = options.tool
-
-if options.per_len==None:
-    per_len = 11
-else:
-    per_len = options.per_len
-
 for dr in dirs.split(';'):
     if dr=='':   continue
     
